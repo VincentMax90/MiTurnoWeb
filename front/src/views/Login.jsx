@@ -10,18 +10,12 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 import axios from "axios";
 import { setUser } from "../state/user";
-import Navbar1 from "../components/Navbar1";
-import Navbar from "../components/Navbar";
 
 import IconButton from "@mui/material/IconButton";
-
-
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
 import InputAdornment from "@mui/material/InputAdornment";
-
 import FormControl from "@mui/material/FormControl";
-
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
@@ -68,8 +62,7 @@ const Login = () => {
   return (
     <>
       {" "}
-      <Navbar />
-      <Navbar1 />
+    
       <div>
         <Grid>
           <Card

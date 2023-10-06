@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 import CloseIcon from '@mui/icons-material/Close';
-import axios from "axios";
-import { useDispatch } from "react-redux";
-import { setUser } from "../state/user"
+
 
 const Navbar = () => {
 
-  const dispatch = useDispatch();
+  
 
   const [off, setOff] = useState(false); 
   function on() {
@@ -14,21 +12,6 @@ const Navbar = () => {
   }
 
 
-  const handleLogout = () => {
-    axios
-      .get("http://localhost:3001/api/user/logout", {
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true,
-        credentials: "include",
-      })
-      .then(() => {
-        dispatch(setUser(null));
-        navigate("/");
-      })
-      .catch((error) => {
-        console.error("Logout failed", error);
-      });
-  };
 
   return (
     <>

@@ -3,10 +3,15 @@ import { Link } from "react-router-dom";
 import Button from "@mui/material/Button";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
+import { useSelector} from "react-redux";
+
 
 const Navbar1 = () => {
+
+  const user = useSelector((state) => state.user);
+
   return (
-    <>
+    <>{user ? (
       <div
         style={{
           display: "flex",
@@ -33,7 +38,7 @@ const Navbar1 = () => {
             Reservar
           </Button>
         </div>
-        <div>
+        <div> 
           <Button
             color="secondary"
             to={"/recoverPass"}
@@ -51,7 +56,7 @@ const Navbar1 = () => {
           
           <Button
             color="secondary"
-            to={"/recoverPass"}
+            to={"/myaccount"}
             component={Link}
             style={{
               marginTop: "15px",
@@ -65,7 +70,7 @@ const Navbar1 = () => {
           </Button>
         
         </div>
-      </div>
+      </div>) : (<div></div>)}
     </>
   );
 };
