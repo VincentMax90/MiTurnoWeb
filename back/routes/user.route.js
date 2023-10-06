@@ -3,7 +3,7 @@ const userRouter = express.Router();
 const userController = require("../controllers/user.controller");
 const {
   validateAuth,
-  validateUserProfileAccess,
+  
 } = require("../middlewares/auth");
 
 userRouter.post("/register", userController.registerUser);

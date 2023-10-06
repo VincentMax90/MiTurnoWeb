@@ -9,12 +9,12 @@ Appointment.init(
       type: Sequelize.INTEGER,
       allowNull: false,
     },
-    id_locations: {
+    id_location: {
       type: Sequelize.INTEGER,
       allowNull: false,
     },
     date: {
-      type: Sequelize.DATEONLY,
+      type: Sequelize.STRING,
       allowNull: false,
     },
     hour: {
@@ -26,7 +26,10 @@ Appointment.init(
       type: Sequelize.BOOLEAN,
       defaultValue: false,
     },
-    state: { type: Sequelize.STRING, defaultValue: true },
+    state: {
+      type: Sequelize.BOOLEAN,
+      defaultValue: true,
+    },
   },
   { sequelize: db, modelName: "appointment" }
 );

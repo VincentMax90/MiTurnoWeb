@@ -4,7 +4,7 @@ const routes = require("./routes");
 const morgan = require("morgan");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
-
+const models = require("./models")
 const app = express();
 const port = 3001;
 
