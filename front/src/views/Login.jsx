@@ -51,7 +51,6 @@ const Login = () => {
 
       const userData = response.data;
       dispatch(setUser(userData));
-      console.log(userData);
       setTimeout(() => {
         navigate("/");
       }, 1500);

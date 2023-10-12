@@ -1,0 +1,31 @@
+.text1 {
+  display: flex;
+  font-size: 22px;
+  font-weight: bold;
+  justify-content: center;
+  align-items: center;
+}
+
+.name {
+  max-width: 230px;
+  display: inline-block;
+  margin-right: 20px;
+}
+
+.dni {
+  max-width: 230px;
+  display: inline-block;
+}
+
+.line {
+  margin-top: 15px;
+  display: flex;
+}
+
+
+.text2{
+  width: 100%;
+  height: 85px;
+  margin-bottom: 15px;
+  font-size: 13px;
+}

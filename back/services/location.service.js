@@ -22,7 +22,6 @@ async function locationDelete(id) {
   });
 }
 
-
 async function locationEdit(id, location) {
   const locationEdit = await Location.update(location, {
     where: {
@@ -31,9 +30,13 @@ async function locationEdit(id, location) {
   });
 }
 
-
-
+async function locationSearch() {
+  return Location.findAll();
+}
 
 module.exports = {
-  locationCreation,locationEdit,locationDelete
+  locationCreation,
+  locationEdit,
+  locationDelete,
+  locationSearch,
 };

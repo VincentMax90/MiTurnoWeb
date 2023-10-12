@@ -1,0 +1,15 @@
+.conteiner {
+  display: flex;
+  height: 50px;
+  width: 95%;
+  margin: 15px;
+  justify-content: space-around;
+  border-radius: 10px;
+  align-items: center;
+  background-color: rgb(240 240 240);
+}
+.box {margin-top: 10px;
+  height: 50px;
+  width: 175px;
+  border-radius: 10px;
+}

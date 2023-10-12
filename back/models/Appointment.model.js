@@ -9,8 +9,12 @@ Appointment.init(
       type: Sequelize.INTEGER,
       allowNull: false,
     },
-    id_location: {
-      type: Sequelize.INTEGER,
+    name: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
+    location: {
+      type: Sequelize.STRING,
       allowNull: false,
     },
     date: {

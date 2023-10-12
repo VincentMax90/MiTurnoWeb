@@ -12,4 +12,6 @@ locationRouter.put("/edit/:id",locationController.locationEdit);
 
 locationRouter.delete("/delete/:id",locationController.locationDelete);
 
+locationRouter.get("/allSearch" ,locationController.locationsearch)
+
 module.exports = locationRouter

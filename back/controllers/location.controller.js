@@ -37,5 +37,12 @@ exports.locationEdit = async (req, res) => {
 
 };
 
-
+exports.locationsearch = async (req, res) => {
+  try {
+    const locations = await locationService.locationSearch();
+    return res.status(200).send(locations);
+  } catch (error) {
+    return res.status(500).json({ error: "Search failed" });
+  }
+};
 

@@ -15,5 +15,12 @@ userRouter.get("/me", validateAuth, userController.getAuthenticatedUser);
 userRouter.get("/logout", userController.logout);
 
 
+userRouter.put(
+  "/:id/edit",
+ 
+  userController.updateUserProfile
+);
+
+
 
 module.exports = userRouter;

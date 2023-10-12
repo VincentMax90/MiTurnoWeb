@@ -16,6 +16,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 import FormControl from "@mui/material/FormControl";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import "./Register.css";
 
 const Register = () => {
   const [nameAndLastname, setNameAndLastname] = useState("");
@@ -44,7 +45,6 @@ const Register = () => {
       password.length <= 8 ||
       password !== password2
     ) {
-      console.log("La contraseña no cumple con los criterios requeridos.");
       return;
     }
 
@@ -65,7 +65,6 @@ const Register = () => {
 
   return (
     <>
-     
       <Grid>
         <Card
           style={{
@@ -89,200 +88,134 @@ const Register = () => {
                 <WestIcon />
                 Atrás
               </Button>
-
-              <div
+              <div className="text1">Crear Cuenta </div>
+              <br></br>
+              <div>
+                <div className="name">
+                  Nombre y apellido
+                  <TextField
+                    required
+                    name="nameAndLastname"
+                    autoComplete="nameAndLastname"
+                    autoFocus
+                    onChange={(e) => setNameAndLastname(e.target.value)}
+                    value={nameAndLastname}
+                    size="small"
+                  />
+                </div>
+                <div className="dni">
+                  DNI
+                  <TextField
+                    required
+                    name="dni"
+                    autoComplete="dni"
+                    autoFocus
+                    onChange={(e) => setDni(e.target.value)}
+                    value={dni}
+                    size="small"
+                  />
+                </div>
+              </div>
+              <div style={{ marginTop: "15px" }}>Mail</div>
+              <TextField
+                size="small"
+                required
+                fullWidth
+                name="email"
+                autoComplete="email"
+                onChange={(e) => setEmail(e.target.value)}
+                value={email}
+              />{" "}
+              <div className="line">
+                <div className="name">
+                  Contraseña
+                  <FormControl variant="outlined">
+                    <InputLabel htmlFor="outlined-adornment-password"></InputLabel>
+                    <OutlinedInput
+                      type={showPassword ? "text" : "password"}
+                      endAdornment={
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={handleClickShowPassword}
+                            onMouseDown={handleMouseDownPassword}
+                            edge="end"
+                          >
+                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                          </IconButton>
+                        </InputAdornment>
+                      }
+                      size="small"
+                      required
+                      name="password"
+                      autoComplete="current-password"
+                      onChange={(e) => setPassword(e.target.value)}
+                      value={password}
+                    />
+                  </FormControl>
+                </div>
+                <div style={{ width: "235px" }}>
+                  Repetir Contraseña
+                  <FormControl variant="outlined">
+                    <InputLabel htmlFor="outlined-adornment-password"></InputLabel>
+                    <OutlinedInput
+                      type={showPassword ? "text" : "password"}
+                      endAdornment={
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={handleClickShowPassword}
+                            onMouseDown={handleMouseDownPassword}
+                            edge="end"
+                          >
+                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                          </IconButton>
+                        </InputAdornment>
+                      }
+                      size="small"
+                      required
+                      name="password"
+                      autoComplete="current-password"
+                      onChange={(e) => setPassword2(e.target.value)}
+                      value={password2}
+                    />
+                  </FormControl>
+                </div>
+              </div>
+              <div className="text2">
+                La contraseña debe contener:
+                <div style={{ border: "1px solid rgb(240 240 240)" }}></div>
+                <div
+                  style={{ color: /[A-Z]/.test(password) ? "green" : "red" }}
+                >
+                  {/[A-Z]/.test(password) ? "✔️" : "❌"} ABC una letra mayúscula
+                </div>
+                <div style={{ color: /\d/.test(password) ? "green" : "red" }}>
+                  {/\d/.test(password) ? "✔️" : "❌"} 123 Un numero
+                </div>
+                <div
+                  style={{ color: /[a-z]/.test(password) ? "green" : "red" }}
+                >
+                  {/[a-z]/.test(password) ? "✔️" : "❌"} abc una letra minúscula
+                </div>
+                <div style={{ color: password.length > 8 ? "green" : "red" }}>
+                  {password.length > 8 ? "✔️" : "❌"} *** Mínimo 8 caracteres
+                </div>
+              </div>
+              <Button
+                sx={{}}
+                type="submit"
+                variant="contained"
                 style={{
-                  display: "flex",
-                  fontSize: "22px",
+                  width: "100%",
+                  backgroundColor: "rgb(165 105 189 )",
+                  margin: "15px 0",
                   fontWeight: "bold",
-                  justifyContent: "center",
-                  alignItems: "center",
                 }}
               >
-                Crear Cuenta{" "}
-              </div>
-              <br></br>
-              <Grid item xs={12}>
-                <div>
-                  <div
-                    style={{
-                      width: "235px",
-                      display: "inline-block",
-                      marginRight: "20px",
-                    }}
-                  >
-                    Nombre y apellido
-                    <TextField
-                      required
-                      name="nameAndLastname"
-                      autoComplete="nameAndLastname"
-                      autoFocus
-                      onChange={(e) => setNameAndLastname(e.target.value)}
-                      value={nameAndLastname}
-                      size="small"
-                    />
-                  </div>
-                  <div
-                    style={{
-                      width: "235px",
-                      display: "inline-block",
-                    }}
-                  >
-                    DNI
-                    <TextField
-                      required
-                      name="dni"
-                      autoComplete="dni"
-                      autoFocus
-                      onChange={(e) => setDni(e.target.value)}
-                      value={dni}
-                      size="small"
-                    />
-                  </div>
-                </div>
-                <div style={{ marginTop: "15px" }}>Mail</div>
-                <TextField
-                  size="small"
-                  required
-                  fullWidth
-                  name="email"
-                  autoComplete="email"
-                  onChange={(e) => setEmail(e.target.value)}
-                  value={email}
-                />{" "}
-                <div
-                  style={{
-                    marginTop: "15px",
-
-                    display: "flex",
-                  }}
-                >
-                  <div
-                    style={{
-                      width: "235px",
-                      marginRight: "20px",
-                    }}
-                  >
-                    Contraseña
-                    <FormControl variant="outlined">
-                      <InputLabel htmlFor="outlined-adornment-password"></InputLabel>
-                      <OutlinedInput
-                        type={showPassword ? "text" : "password"}
-                        endAdornment={
-                          <InputAdornment position="end">
-                            <IconButton
-                              aria-label="toggle password visibility"
-                              onClick={handleClickShowPassword}
-                              onMouseDown={handleMouseDownPassword}
-                              edge="end"
-                            >
-                              {showPassword ? (
-                                <VisibilityOff />
-                              ) : (
-                                <Visibility />
-                              )}
-                            </IconButton>
-                          </InputAdornment>
-                        }
-                        size="small"
-                        required
-                        name="password"
-                        autoComplete="current-password"
-                        onChange={(e) => setPassword(e.target.value)}
-                        value={password}
-                      />
-                    </FormControl>
-                  </div>
-                  <div
-                    style={{
-                      width: "235px",
-                    }}
-                  >
-                    Repetir Contraseña
-                    <FormControl variant="outlined">
-                      <InputLabel htmlFor="outlined-adornment-password"></InputLabel>
-                      <OutlinedInput
-                        type={showPassword ? "text" : "password"}
-                        endAdornment={
-                          <InputAdornment position="end">
-                            <IconButton
-                              aria-label="toggle password visibility"
-                              onClick={handleClickShowPassword}
-                              onMouseDown={handleMouseDownPassword}
-                              edge="end"
-                            >
-                              {showPassword ? (
-                                <VisibilityOff />
-                              ) : (
-                                <Visibility />
-                              )}
-                            </IconButton>
-                          </InputAdornment>
-                        }
-                        size="small"
-                        required
-                        name="password"
-                        autoComplete="current-password"
-                        onChange={(e) => setPassword2(e.target.value)}
-                        value={password2}
-                      />
-                    </FormControl>
-                  </div>
-                </div>
-                <div
-                  style={{
-                   
-                    width: "100%",
-                    height: "85px",
-                    marginTop: "15px",
-                    fontSize:"13px",
-                    
-                  }}
-                >
-                  La contraseña debe contener:
-                  <div
-                    style={{
-                      border: "1px solid rgb(240 240 240)",
-                    }}
-                  ></div>
-                  <div
-                    style={{ color: /[A-Z]/.test(password) ? "green" : "red" }}
-                  >
-                    {/[A-Z]/.test(password) ? "✔️" : "❌"} ABC una letra
-                    mayúscula
-                  </div>
-                  <div style={{ color: /\d/.test(password) ? "green" : "red" }}>
-                    {/\d/.test(password) ? "✔️" : "❌"} 123 Un numero
-                  </div>
-                  <div
-                    style={{ color: /[a-z]/.test(password) ? "green" : "red" }}
-                  >
-                    {/[a-z]/.test(password) ? "✔️" : "❌"} abc una letra
-                    minúscula
-                  </div>
-                  <div style={{ color: password.length > 8 ? "green" : "red" }}>
-                    {password.length > 8 ? "✔️" : "❌"} *** Mínimo 8 caracteres
-                  </div>
-                </div>
-                <Button
-                  sx={{}}
-                  type="submit"
-                  variant="contained"
-                  style={{
-                    width: "100%",
-                    backgroundColor: "rgb(165 105 189 )",
-                    margin: "15px 0",
-                    fontWeight: "bold",
-                  }}
-                >
-                  Registrarme
-                </Button>
-                <div
-                  style={{
-                    border: "1px solid rgb(240 240 240)",
-                  }}
-                ></div>
-              </Grid>
+                Registrarme
+              </Button>
+              <div style={{ border: "1px solid rgb(240 240 240)" }}></div>
               <Button
                 color="inherit"
                 to={"/login"}

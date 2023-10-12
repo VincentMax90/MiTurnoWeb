@@ -1,21 +1,19 @@
 const Appointment = require("../models/Appointment.model");
 
 async function createAppointment(
-  id_user,
+  name,
   date,
   hour,
-  id_location,
-  confirmation,
-  state
+  location,
+  id_user
 ) {
   try {
     const appointment = await Appointment.create({
-      id_user,
+      name,
       date,
       hour,
-      id_location,
-      confirmation,
-      state,
+      location,
+      id_user
     });
 
     return appointment;

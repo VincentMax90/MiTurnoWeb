@@ -2,14 +2,13 @@ const appointmentService = require("../services/appointment.service")
 
 exports.createAppointment = async (req, res) => {
   try {
-    const { id_user, date, hour, id_location, confirmation, state } = req.body;
+    const { name, date, hour, location,id_user } = req.body;
     const appointment = await appointmentService.createAppointment(
-      id_user,
+      name,
       date,
       hour,
-      id_location,
-      confirmation,
-      state
+      location,
+      id_user
     );
 
     res.status(201).json(appointment);

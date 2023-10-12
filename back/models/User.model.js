@@ -40,6 +40,10 @@ User.init(
       type: Sequelize.BOOLEAN,
       defaultValue: false,
     },
+    operador:{
+      type: Sequelize.BOOLEAN,
+      defaultValue: false,
+    },
     salt: {
       type: Sequelize.STRING,
     },
@@ -57,3 +61,7 @@ User.addHook("beforeCreate", (user) => {
 });
 
 module.exports = User;
+
+
+
+

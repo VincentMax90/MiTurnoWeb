@@ -8,6 +8,9 @@ import RecoverPass from "./views/RecoverPass";
 import MyAccount from "./views/MyAccount";
 import Navbar from ".//components/Navbar";
 import Navbar1 from ".//components/Navbar1";
+import Reserve from "./views/Reserve";
+import Booking from "./views/Bookings";
+
 
 function App() {
   return (
@@ -20,6 +23,8 @@ function App() {
         <Route path="/register" element={<Register />}></Route>
         <Route path="/recoverPass" element={<RecoverPass />}></Route>
         <Route path="/myaccount" element={<MyAccount />}></Route>
+        <Route path="/reserve" element={<Reserve/>}></Route>
+        <Route path="/bookings" element = {<Booking/>}></Route>
       </Routes>
     </>
   );
