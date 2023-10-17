@@ -9,17 +9,26 @@ Location.init(
       type: Sequelize.STRING,
       allowNull: false,
     },
-    ubication: {
+    email: {
       type: Sequelize.STRING,
       allowNull: false,
     },
-    days: {
-      type: Sequelize.STRING,
+    telefono: {
+      type: Sequelize.INTEGER,
       allowNull: false,
     },
 
-    hour: {
-      type: Sequelize.STRING,
+    capacity: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+    },
+    hourOpen: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+    },
+
+    hourClose: {
+      type: Sequelize.INTEGER,
       allowNull: false,
     },
   },

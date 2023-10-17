@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import TextField from "@mui/material/TextField";
@@ -8,7 +8,6 @@ import { Grid } from "@mui/material";
 import { Card, CardContent } from "@mui/material";
 import { useNavigate } from "react-router";
 import axios from "axios";
-import WestIcon from "@mui/icons-material/West";
 import IconButton from "@mui/material/IconButton";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
@@ -17,38 +16,26 @@ import FormControl from "@mui/material/FormControl";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import "./Register.css";
-const Swal = require('sweetalert2')
+import Swal from "sweetalert2";
+import MenuItem from "@mui/material/MenuItem";
 
-
-const Register = () => {
+const CreateOperador = () => {
   const [nameAndLastname, setNameAndLastname] = useState("");
   const [dni, setDni] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
-
+  const [operador, setOperador] = useState("");
+  const [data, setData] = useState([]);
   const navigate = useNavigate();
-
   const [showPassword, setShowPassword] = useState(false);
-
   const handleClickShowPassword = () => setShowPassword((show) => !show);
-
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (
-      !/[A-Z]/.test(password) ||
-      !/\d/.test(password) ||
-      !/[a-z]/.test(password) ||
-      password.length <= 8 ||
-      password !== password2
-    ) {
-      return;
-    }
 
     try {
       const user = await axios.post("http://localhost:3001/api/user/register", {
@@ -57,24 +44,44 @@ const Register = () => {
         email: email,
         password: password,
         admin: false,
-      });  Swal.fire({
-        icon:'success',
-        title:"Cuenta creada con exito",
-        text:'Gracias por confiar en nuestro servicio', timer: "1500",
-        confirmButtonText: 'Continuar'
-      }
-      )
+        operador: operador,
+      });
+      Swal.fire({
+        icon: "success",
+        title: "Operador creado con exito",
+        text: "Gracias por confiar en nuestro servicio",
+        timer: "1500",
+        confirmButtonText: "Continuar",
+      });
       setTimeout(() => {
-        navigate("/login");
+        navigate("/operadores");
       }, 2000);
-    } catch (error) {Swal.fire({
-      icon:'error',
-      title:"Email ya usado para registrarse",
-      text:'Por favot utilice otro Email', timer: "1500",
-      confirmButtonText: 'Continuar'
-    })
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Error al crear el operador",
+        text: "verifique los datos",
+        timer: "1500",
+        confirmButtonText: "Continuar",
+      });
     }
   };
+
+  const local = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:3001/api/location//allSearch`
+      );
+      const data1 = response.data;
+      setData(data1);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    local();
+  }, []);
 
   return (
     <>
@@ -90,22 +97,13 @@ const Register = () => {
             <Box
               onSubmit={handleSubmit}
               component="form"
-              style={{ margin: " 0 24px" }}
+              style={{ margin: " 0 29px" }}
             >
-              <Button
-                color="secondary"
-                to={"/login"}
-                component={Link}
-                style={{ fontWeight: "bold", textTransform: "none" }}
-              >
-                <WestIcon />
-                Atrás
-              </Button>
-              <div className="text1">Crear Cuenta </div>
+              <div className="text1">Crear Operador </div>
               <br></br>
               <div>
-                <div className="name">
-                  Nombre y apellido
+                <div>
+                  Nombre
                   <TextField
                     required
                     name="nameAndLastname"
@@ -114,18 +112,7 @@ const Register = () => {
                     onChange={(e) => setNameAndLastname(e.target.value)}
                     value={nameAndLastname}
                     size="small"
-                  />
-                </div>
-                <div className="dni">
-                  DNI
-                  <TextField
-                    required
-                    name="dni"
-                    autoComplete="dni"
-                    autoFocus
-                    onChange={(e) => setDni(e.target.value)}
-                    value={dni}
-                    size="small"
+                    fullWidth
                   />
                 </div>
               </div>
@@ -139,9 +126,42 @@ const Register = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 value={email}
               />{" "}
-              <div className="line">
+              <div>
                 <div className="name">
-                  Contraseña
+                  DNI{" "}
+                  <TextField
+                    required
+                    name="dni"
+                    autoComplete="dni"
+                    autoFocus
+                    onChange={(e) => setDni(e.target.value)}
+                    value={dni}
+                    size="small"
+                  />
+                </div>
+                <div className="dni">
+                  Sucursal{" "}
+                  <TextField
+                    fullWidth
+                    select
+                    autoFocus
+                    required
+                    value={operador}
+                    size="small"
+                    onChange={(e) => setOperador(e.target.value)}
+                  >
+                    {Array.isArray(data) &&
+                      data.map((option) => (
+                        <MenuItem key={option.id} value={option.name}>
+                          {option.name}
+                        </MenuItem>
+                      ))}
+                  </TextField>
+                </div>
+              </div>{" "}
+              <div>
+                <div className="name">
+                  Contraseña{" "}
                   <FormControl variant="outlined">
                     <InputLabel htmlFor="outlined-adornment-password"></InputLabel>
                     <OutlinedInput
@@ -167,8 +187,8 @@ const Register = () => {
                     />
                   </FormControl>
                 </div>
-                <div style={{ width: "235px" }}>
-                  Repetir Contraseña
+                <div className="dni">
+                  Repetir contraseña{" "}
                   <FormControl variant="outlined">
                     <InputLabel htmlFor="outlined-adornment-password"></InputLabel>
                     <OutlinedInput
@@ -195,97 +215,18 @@ const Register = () => {
                   </FormControl>
                 </div>
               </div>
-              <div className="text2">
-                La contraseña debe contener:
-                <div style={{ border: "1px solid rgb(240 240 240)" }}></div>
-                <div>
-                  <div
-                    style={{
-                      color: /[A-Z]/.test(password) ? "green" : "red",
-                    }}
-                  >
-                    {/[A-Z]/.test(password) ? "✔️" : "❌"} ABC una letra
-                    mayúscula
-                  </div>
-                  <div style={{ color: /\d/.test(password) ? "green" : "red" }}>
-                    {/\d/.test(password) ? "✔️" : "❌"} 123 Un numero
-                  </div>
-                  <div
-                    style={{
-                      color: /[a-z]/.test(password) ? "green" : "red",
-                    }}
-                  >
-                    {/[a-z]/.test(password) ? "✔️" : "❌"} abc una letra
-                    minúscula
-                  </div>
-                  <div
-                    style={{ color: password.length >= 8 ? "green" : "red" }}
-                  >
-                    {password.length >= 8 ? "✔️" : "❌"} *** Mínimo 8 caracteres
-                  </div>
-                  <div
-                    style={{
-                      color:
-                        password === password2 && password.length > 8
-                          ? "green"
-                          : "red",
-                    }}
-                  >
-                    {password === password2 && password.length > 8
-                      ? "✔️"
-                      : "❌"}{" "}
-                    Contraseñas no coiciden
-                  </div>
-                </div>
-              </div>
-              {/[A-Z]/.test(password) &&
-              /\d/.test(password) &&
-              /[a-z]/.test(password) &&
-              password === password2 &&
-              password.length >= 8 ? (
-                <Button
-                  sx={{}}
-                  type="submit"
-                  variant="contained"
-                  style={{
-                    width: "100%",
-                    backgroundColor: "rgb(165 105 189 )",
-                    margin: "15px 0",
-                    fontWeight: "bold",
-                  }}
-                >
-                  Registrarme
-                </Button>
-              ) : (
-                <Button
-                  disabled
-                  sx={{}}
-                  type="submit"
-                  variant="contained"
-                  style={{
-                    width: "100%",
-                    backgroundColor: "rgb(165 105 189 )",
-                    margin: "15px 0",
-                    fontWeight: "bold",
-                  }}
-                >
-                  Registrarme
-                </Button>
-              )}
-              <div style={{ border: "1px solid rgb(240 240 240)" }}></div>
               <Button
-                color="secondary"
-                to={"/login"}
-                component={Link}
+                sx={{}}
+                type="submit"
+                variant="contained"
                 style={{
                   width: "100%",
-                  backgroundColor: "rgb(240 240 240)",
-                  textTransform: "none",
+                  backgroundColor: "rgb(165 105 189 )",
+                  margin: "15px 0",
                   fontWeight: "bold",
-                  margin: "  15px 0 ",
-                }}  
+                }}
               >
-                ¿Ya tenes cuenta?Iniciar seccion{" "}
+                Enviar
               </Button>
             </Box>
           </CardContent>
@@ -295,4 +236,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default CreateOperador;

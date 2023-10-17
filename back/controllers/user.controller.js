@@ -2,14 +2,14 @@ const userService = require("../services/user.service");
 
 exports.registerUser = async (req, res) => {
   try {
-    const { nameAndLastname, dni, email, password } = req.body;
+    const { nameAndLastname, dni, email, password, admin, operador } = req.body;
     const user = await userService.registerUser(
       nameAndLastname,
       dni,
       email,
       password,
-     
-      
+      admin,
+      operador,
     );
     res.status(201).json(user);
   } catch (error) {
@@ -40,6 +40,7 @@ exports.loginUser = async (req, res) => {
       dni: user.dni,
       id: user.id,
       admin: user.admin,
+      operador:user.operador
     };
     const token = userService.generateToken(payload);
 
@@ -75,8 +76,6 @@ exports.updateUserProfile = async (req, res) => {
     const { id } = req.params;
     const profileData = req.body;
 
-   
-
     const updatedProfile = await userService.updateUserProfile(id, profileData);
     res.json(updatedProfile);
   } catch (error) {
@@ -87,3 +86,12 @@ exports.updateUserProfile = async (req, res) => {
   }
 };
 
+
+exports.searchAll = async (req, res) => {
+  try {
+    const user = await userService.searchAll();
+    return res.status(200).send(user);
+  } catch (error) {
+    return res.status(500).json({ error: "Search failed" });
+  }
+};

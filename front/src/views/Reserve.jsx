@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { TextField, Button } from "@mui/material";
-import axios, { Axios } from "axios";
+import axios from "axios";
 import MenuItem from "@mui/material/MenuItem";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
 import { useSelector } from "react-redux";
 import "./Reserve.css";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router";
 
 const Reserve = () => {
+  const navigate = useNavigate();
+
   const [location, setLocation] = useState("");
   const [selecLocation, setSelectLocation] = useState(null);
   const [day, setDay] = useState(null);
@@ -17,6 +21,29 @@ const Reserve = () => {
   const [telefono, setTelefono] = useState(null);
   const [email, setEmail] = useState(null);
   const user = useSelector((state) => state.user);
+
+  const [timer, setTimer] = useState(1 * 300); 
+  const [timerInterval, setTimerInterval] = useState(null);
+
+  const updateTimer = () => {
+    
+      setTimer((prevTimer) => prevTimer - 1);
+    
+      if (timer === 300) {
+        setTimeout(() => {
+          Swal.fire({
+            icon: "info",
+            title: "Tiempo agotado",
+            text: "El tiempo para completar la reserva ha terminado.",
+            
+          }), setTimeout(() => {
+            window.location.reload();
+          }, 2000);
+        }, 300000); 
+      
+  }
+    }
+  
 
   const horarioLocal = [
     "8:00",
@@ -60,7 +87,15 @@ const Reserve = () => {
       })
       .then((response) => {
         if (response.status === 201) {
-          alert("Reserva creada");
+          Swal.fire({
+            icon: "success",
+            title: "Turno reservado con éxito",
+            text: "Gracias por confiar en nuestro servicio",
+            timer: "1500",
+            confirmButtonText: "Continuar",
+          });setTimeout(() => {
+            navigate("/bookings");
+          }, 2000)
         } else {
           alert("Error al crear reserva");
         }
@@ -73,17 +108,24 @@ const Reserve = () => {
 
   useEffect(() => {
     search();
+
+    if (timerInterval) {
+      clearInterval(timerInterval);
+    }
+
+    const interval = setInterval(updateTimer, 1000);
+    setTimerInterval(interval);
   }, []);
 
   return (
     <>
       <div className="body">
         {" "}
-        <div> hacer una reserva</div>
+        <div> Hacer una reserva</div>
         <div style={{ margin: "30px 0 0 95px", display: "flex" }}>
           <div className="box-form">
             {" "}
-            reserva <br></br>selecciona tu sucursal
+            Reserva <br></br>Selecciona tu sucursal
             <div className="box-pasos">
               <div className="box-small-size">
                 {" "}
@@ -102,7 +144,7 @@ const Reserve = () => {
                 ) : (
                   <div className="box-green">✔️</div>
                 )}
-                Selecciona el dia
+                Selecciona el día
               </div>
               <div className="box-small-size">
                 {day === null ? (
@@ -228,6 +270,11 @@ const Reserve = () => {
                   <DateCalendar onChange={handleDateChange} />
                 </LocalizationProvider>
               )}
+            </div>
+            <div className="timer">
+              <div>
+                Quedan {Math.floor(timer / 60)}:{timer % 60}
+              </div>
             </div>
           </div>
         </div>

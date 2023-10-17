@@ -7,6 +7,8 @@ export const userInitialState = {
   email: null,
   dni: null,
   admin: null,
+  operador: null,
+
 };
 
 const reducerUser = createReducer(userInitialState, {

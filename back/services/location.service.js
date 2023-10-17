@@ -1,12 +1,9 @@
 const Location = require("../models/Location.model");
 
-async function locationCreation(name, ubication, days, hour) {
+async function locationCreation(name, email, telefono, capacity, hourOpen, hourClose) {
   try {
     const location = await Location.create({
-      name,
-      ubication,
-      days,
-      hour,
+      name, email, telefono, capacity, hourOpen, hourClose
     });
     return location;
   } catch (error) {

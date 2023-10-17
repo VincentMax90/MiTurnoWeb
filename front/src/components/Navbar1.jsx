@@ -2,37 +2,18 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Button from "@mui/material/Button";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import { useSelector } from "react-redux";
-import axios from "axios";
-import { useDispatch } from "react-redux";
-import { setUser } from "../state/user";
-import { useNavigate } from "react-router";
-
+import ButtonClose from "../commons/ButtonClose";
+import ButtonAccount from "../commons/ButtonAccount";
+import StoreIcon from "@mui/icons-material/Store";
+import FaceRetouchingNaturalIcon from "@mui/icons-material/FaceRetouchingNatural";
+import ArticleIcon from "@mui/icons-material/Article";
 const Navbar1 = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
   const user = useSelector((state) => state.user);
-
-  const handleLogout = () => {
-    axios
-      .get("http://localhost:3001/api/user/logout", {
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true,
-        credentials: "include",
-      })
-      .then(() => {
-        dispatch(setUser(null));
-        navigate("/");
-      })
-      .catch((error) => {
-        console.error("Logout failed", error);
-      });
-  };
 
   return (
     <>
-      {user ? (
+      {user && user.admin === false && user.operador === null ? (
         <div
           style={{
             display: "flex",
@@ -75,10 +56,60 @@ const Navbar1 = () => {
               Mis reservas
               <CalendarMonthIcon />
             </Button>
+            <ButtonAccount /> <ButtonClose />
+          </div>
+        </div>
+      ) : null}
+
+      {user && user.admin === true ? (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            height: "75px",
+            alignItems: "center",
+            boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
+          }}
+        >
+          <div>
+            <Button
+              color="secondary"
+              to={"/create/location"}
+              component={Link}
+              style={{
+                backgroundColor: "rgb(240 240 240)",
+                width: "130px",
+                height: "45px",
+                textTransform: "none",
+                fontWeight: "bold",
+                marginLeft: "95px",
+              }}
+            >
+              Crear Sucursal
+            </Button>
 
             <Button
               color="secondary"
-              to={"/myaccount"}
+              to={"/create/Operador"}
+              component={Link}
+              style={{
+                backgroundColor: "rgb(240 240 240)",
+                width: "130px",
+                height: "45px",
+                textTransform: "none",
+                fontWeight: "bold",
+                marginLeft: "30px",
+              }}
+            >
+              Crear Operador
+            </Button>
+          </div>
+
+          <div>
+            {" "}
+            <Button
+              color="secondary"
+              to={"/local"}
               component={Link}
               style={{
                 marginTop: "15px",
@@ -88,26 +119,74 @@ const Navbar1 = () => {
                 alignItems: "center",
               }}
             >
-              Mi cuenta <PersonOutlineIcon />
-            </Button>
-
+              Sucursales
+              <StoreIcon />
+            </Button>{" "}
             <Button
-              onClick={handleLogout}
-              variant="contained"
+              color="secondary"
+              to={"/operadores"}
+              component={Link}
               style={{
-                width: "50px",
-                backgroundColor: "rgb(165 105 189 )",
-                margin: "15px",
+                marginTop: "15px",
                 fontWeight: "bold",
+                fontSize: "10px",
+                justifyContent: "center",
+                alignItems: "center",
               }}
             >
-              Salir
+              OPERADORES
+              <FaceRetouchingNaturalIcon />
+            </Button>{" "}
+            <Button
+              color="secondary"
+              to={"/bookings"}
+              component={Link}
+              style={{
+                marginTop: "15px",
+                fontWeight: "bold",
+                fontSize: "10px",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              Reportes
+              <ArticleIcon />
             </Button>
+            <ButtonAccount />
+            <ButtonClose />
           </div>
         </div>
-      ) : (
-        <div></div>
-      )}
+      ) : null}
+      {user && user.admin === false && user.operador !== null ? (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "end",
+            height: "75px",
+            alignItems: "center",
+            boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
+            paddingRight:"30px"
+          }}
+        >
+          <Button
+              color="secondary"
+              to={"/bookings"}
+              component={Link}
+              style={{
+                marginTop: "15px",
+                fontWeight: "bold",
+                fontSize: "10px",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              Reservas
+              <CalendarMonthIcon />
+            </Button>
+          <ButtonAccount />
+          <ButtonClose />
+        </div>
+      ) : null}
     </>
   );
 };

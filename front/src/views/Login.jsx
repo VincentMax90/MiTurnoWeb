@@ -18,6 +18,8 @@ import InputAdornment from "@mui/material/InputAdornment";
 import FormControl from "@mui/material/FormControl";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+const Swal = require('sweetalert2')
+
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -50,18 +52,28 @@ const Login = () => {
       );
 
       const userData = response.data;
+      
       dispatch(setUser(userData));
+      Swal.fire({
+        icon:'success',
+        title:"Ingreso con exito",
+        text:'Gracias por confiar en nuestro servicio', timer: "1500",
+        confirmButtonText: 'Continuar'})
       setTimeout(() => {
         navigate("/");
       }, 1500);
-    } catch (error) {
-      console.error("Error al iniciar sesión:", error);
+    } catch (error) {Swal.fire({
+      icon:'error',
+      title:"Email o contraseña incorrecto",
+      text:'Verifique ambos',
+      confirmButtonText: 'Continuar',
+      timer: "1500",
+    })
     }
   };
   return (
     <>
       {" "}
-    
       <div>
         <Grid>
           <Card
@@ -148,18 +160,34 @@ const Login = () => {
                     ¿Olvidaste tu constraseña?
                   </Button>
                   <Grid item xs={12}>
-                    <Button
-                      type="submit"
-                      variant="contained"
-                      style={{
-                        width: "95%",
-                        backgroundColor: "rgb(165 105 189 )",
-                        margin: "15px",
-                        fontWeight: "bold",
-                      }}
-                    >
-                      Ingresar
-                    </Button>
+                    {loginEmail !== ""  && loginPassword.length >= 4? (
+                      <Button
+                        type="submit"
+                        variant="contained"
+                        style={{
+                          width: "95%",
+                          backgroundColor: "rgb(165 105 189 )",
+                          margin: "15px",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        ingresar
+                      </Button>
+                    ) : (
+                      <Button
+                        disabled
+                        type="submit"
+                        variant="contained"
+                        style={{
+                          width: "95%",
+                          backgroundColor: "rgb(165 105 189 )",
+                          margin: "15px",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        ingresar
+                      </Button>
+                    )}
                   </Grid>
                   <div
                     style={{

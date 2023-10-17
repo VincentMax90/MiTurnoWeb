@@ -33,16 +33,16 @@ User.init(
       allowNull: false,
     },
 
-    phone: {
+    operador: {
       type: Sequelize.STRING,
+      defaultValue: null,
     },
     admin: {
       type: Sequelize.BOOLEAN,
       defaultValue: false,
     },
-    operador:{
-      type: Sequelize.BOOLEAN,
-      defaultValue: false,
+    phone: {
+      type: Sequelize.STRING,
     },
     salt: {
       type: Sequelize.STRING,
@@ -61,7 +61,3 @@ User.addHook("beforeCreate", (user) => {
 });
 
 module.exports = User;
-
-
-
-

@@ -14,6 +14,8 @@ userRouter.get("/me", validateAuth, userController.getAuthenticatedUser);
 
 userRouter.get("/logout", userController.logout);
 
+userRouter.get("/searchAll", userController.searchAll)
+
 
 userRouter.put(
   "/:id/edit",

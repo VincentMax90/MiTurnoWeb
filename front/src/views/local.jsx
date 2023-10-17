@@ -3,27 +3,14 @@ import Button from "@mui/material/Button";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import "./Bookings.css";
-const Booking = () => {
+const Local = () => {
   const [data, setData] = useState([]);
 
   const user = useSelector((state) => state.user);
-console.log(user)
-  const booking = async () => {
+  const local = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:3001/api/appoiment/user/${user.id}`
-      );
-      const data1 = response.data;
-      setData(data1);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const booking1 = async () => {
-    try {
-      const response = await axios.get(
-        `http://localhost:3001/api/appoiment/location/${user.operador}`
+        `http://localhost:3001/api/location/allSearch`
       );
       const data1 = response.data;
       setData(data1);
@@ -33,38 +20,35 @@ console.log(user)
   };
 
   useEffect(() => {
-    if (user && user.operador !== null) {
-      booking1();
-    } else {
-      booking();
-    }
-  }, [user]);
+    local();
+  }, []);
 
   return (
     <>
-      <div>reservas</div>
       {data.length === 0 ? (
-        "No hay reservas"
+        "No hay reservas o eso cree"
       ) : (
         <>
           {Array.isArray(data) &&
             data.map((option) => (
               <div className="conteiner">
                 <div className="box">
-                  Nombre y apellido <br></br>{" "}
+                  Nombre <br></br>{" "}
                   <div style={{ fontWeight: "bold" }}>{option.name}</div>
                 </div>
                 <div className="box">
-                  Reserva<br></br>
-                  <div style={{ fontWeight: "bold" }}>{option.hour}</div>
+                  Email<br></br>
+                  <div style={{ fontWeight: "bold" }}>{option.email}</div>
                 </div>
                 <div className="box">
-                  Sucursal<br></br>
-                  <div style={{ fontWeight: "bold" }}>{option.location}</div>
+                  Capacidad-Maxima<br></br>
+                  <div style={{ fontWeight: "bold" }}>{option.capacity}</div>
                 </div>
                 <div className="box">
-                  N° de la reserva<br></br>
-                  <div style={{ fontWeight: "bold" }}>{"2023 -"+option.id}</div>
+                  Horario<br></br>
+                  <div
+                    style={{ fontWeight: "bold" }}
+                  >{`${option.hourOpen} - ${option.hourClose}`}</div>
                 </div>
                 <div className="box">
                   <Button
@@ -86,4 +70,4 @@ console.log(user)
   );
 };
 
-export default Booking;
+export default Local;

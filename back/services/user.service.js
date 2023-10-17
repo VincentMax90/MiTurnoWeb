@@ -2,7 +2,7 @@ const User = require("../models/User.model");
 const tokenService = require("../config/tokens");
 const bcrypt = require("bcrypt");
 
-async function registerUser(nameAndLastname,dni, email, password) {
+async function registerUser(nameAndLastname,dni, email, password,admin,operador) {
   try {
     const existingUser = await User.findOne({ where: { email } });
 
@@ -10,7 +10,7 @@ async function registerUser(nameAndLastname,dni, email, password) {
       throw new Error("El correo electrónico ya está registrado");
     }
 
-    const user = await User.create({ nameAndLastname,dni, email, password});
+    const user = await User.create({ nameAndLastname,dni, email, password,admin,operador});
     return user;
   } catch (error) {
     throw new Error(error.message);
@@ -49,7 +49,7 @@ async function updateUserProfile(userId, profileData) {
   try {
     await User.update(
       {
-        nameAndLastname: profileData.name,
+        nameAndLastname: profileData.nameAndLastname,
         phone: profileData.phone,
         dni:profileData.dni,
         email:profileData.email,
@@ -73,6 +73,13 @@ async function updateUserProfile(userId, profileData) {
 }
 
 
+async function searchAll() {
+  return User.findAll();
+}
+
+
+
+
 module.exports = {
   registerUser,
   findUserByEmail,
@@ -81,5 +88,5 @@ module.exports = {
   generateToken,
   getUserProfile,
   updateUserProfile,
- 
+  searchAll
 };

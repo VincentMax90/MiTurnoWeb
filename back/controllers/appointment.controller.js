@@ -1,8 +1,8 @@
-const appointmentService = require("../services/appointment.service")
+const appointmentService = require("../services/appointment.service");
 
 exports.createAppointment = async (req, res) => {
   try {
-    const { name, date, hour, location,id_user } = req.body;
+    const { name, date, hour, location, id_user } = req.body;
     const appointment = await appointmentService.createAppointment(
       name,
       date,
@@ -17,7 +17,6 @@ exports.createAppointment = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
-
 
 exports.deleteAppointment = async (req, res) => {
   try {
@@ -64,3 +63,15 @@ exports.searchUserId = async (req, res) => {
   }
 };
 
+exports.findByLocation = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const appointment = await appointmentService.findUserByOperador(id);
+    if (!appointment) {
+      return res.status(404).json({ message: "Citas no encontrada." });
+    }
+    res.json(appointment);
+  } catch (error) {
+    res.status(500).json({ message: "Error al obtener la Cita." });
+  }
+};

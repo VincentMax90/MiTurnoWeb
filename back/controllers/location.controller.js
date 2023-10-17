@@ -2,19 +2,20 @@ const locationService = require("../services/location.service");
 
 exports.locationCreation = async (req, res) => {
   try {
-    const { name, ubication, days, hour } = req.body;
+    const { name, email, telefono, capacity, hourOpen, hourClose } = req.body;
     const location = await locationService.locationCreation(
       name,
-      ubication,
-      days,
-      hour
+      email,
+      telefono,
+      capacity,
+      hourOpen,
+      hourClose
     );
     res.status(201).json(location);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
-
 
 exports.locationDelete = async (req, res) => {
   try {
@@ -34,7 +35,6 @@ exports.locationEdit = async (req, res) => {
   } catch (error) {
     return res.status(500).json({ error: "Search failed" });
   }
-
 };
 
 exports.locationsearch = async (req, res) => {
@@ -45,4 +45,3 @@ exports.locationsearch = async (req, res) => {
     return res.status(500).json({ error: "Search failed" });
   }
 };
-

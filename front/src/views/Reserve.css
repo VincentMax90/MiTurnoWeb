@@ -88,3 +88,18 @@
   display: inline-block;
   margin-left: 50px;
 }
+
+.timer{
+  height: 40px;
+  width: 120px;
+  background-color: rgb(165 105 189);
+  margin: 30px 35%;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  color: white;
+  
+
+}

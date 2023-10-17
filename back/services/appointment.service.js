@@ -1,19 +1,13 @@
 const Appointment = require("../models/Appointment.model");
 
-async function createAppointment(
-  name,
-  date,
-  hour,
-  location,
-  id_user
-) {
+async function createAppointment(name, date, hour, location, id_user) {
   try {
     const appointment = await Appointment.create({
       name,
       date,
       hour,
       location,
-      id_user
+      id_user,
     });
 
     return appointment;
@@ -50,10 +44,17 @@ async function searchUserId(id) {
   });
 }
 
+async function findUserByOperador(id) {
+  return Appointment.findAll({
+    where: { location: id },
+  });
+}
+
 module.exports = {
   createAppointment,
   deleteAppointment,
   searchAll,
   editAppointment,
   searchUserId,
+  findUserByOperador,
 };

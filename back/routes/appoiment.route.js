@@ -14,5 +14,5 @@ appointmentRouter.get("/searchAll",appointmentController.searchAll)
 
 appointmentRouter.get("/user/:id",appointmentController.searchUserId)
 
-
+appointmentRouter.get("/location/:id",appointmentController.findByLocation)
 module.exports = appointmentRouter;
