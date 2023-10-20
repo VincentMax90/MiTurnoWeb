@@ -9,7 +9,7 @@ exports.registerUser = async (req, res) => {
       email,
       password,
       admin,
-      operador,
+      operador
     );
     res.status(201).json(user);
   } catch (error) {
@@ -40,7 +40,7 @@ exports.loginUser = async (req, res) => {
       dni: user.dni,
       id: user.id,
       admin: user.admin,
-      operador:user.operador
+      operador: user.operador,
     };
     const token = userService.generateToken(payload);
 
@@ -86,12 +86,27 @@ exports.updateUserProfile = async (req, res) => {
   }
 };
 
-
 exports.searchAll = async (req, res) => {
   try {
     const user = await userService.searchAll();
     return res.status(200).send(user);
   } catch (error) {
     return res.status(500).json({ error: "Search failed" });
+  }
+};
+
+exports.searchUserId = async (req, res) => {
+  const userId = req.params.id;
+
+  try {
+    const user = await userService.findUserById(userId);
+
+    if (user) {
+      res.status(200).json(user);
+    } else {
+      res.status(404).json({ error: "Usuario no encontrado" });
+    }
+  } catch (error) {
+    res.status(500).json({ error: "Error en el servidor" });
   }
 };

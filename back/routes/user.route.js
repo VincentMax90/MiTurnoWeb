@@ -16,6 +16,7 @@ userRouter.get("/logout", userController.logout);
 
 userRouter.get("/searchAll", userController.searchAll)
 
+userRouter.get("/search/:id", userController.searchUserId)
 
 userRouter.put(
   "/:id/edit",

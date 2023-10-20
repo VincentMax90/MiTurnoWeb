@@ -2,7 +2,14 @@ const User = require("../models/User.model");
 const tokenService = require("../config/tokens");
 const bcrypt = require("bcrypt");
 
-async function registerUser(nameAndLastname,dni, email, password,admin,operador) {
+async function registerUser(
+  nameAndLastname,
+  dni,
+  email,
+  password,
+  admin,
+  operador
+) {
   try {
     const existingUser = await User.findOne({ where: { email } });
 
@@ -10,7 +17,14 @@ async function registerUser(nameAndLastname,dni, email, password,admin,operador)
       throw new Error("El correo electrónico ya está registrado");
     }
 
-    const user = await User.create({ nameAndLastname,dni, email, password,admin,operador});
+    const user = await User.create({
+      nameAndLastname,
+      dni,
+      email,
+      password,
+      admin,
+      operador,
+    });
     return user;
   } catch (error) {
     throw new Error(error.message);
@@ -23,10 +37,6 @@ async function findUserByEmail(email) {
   });
 }
 
-async function getUserById(userId) {
-  return User.findByPk(userId);
-}
-
 async function validateUserPassword(password, secondPassword) {
   return bcrypt.compare(password, secondPassword);
 }
@@ -35,25 +45,14 @@ function generateToken(payload) {
   return tokenService.generateToken(payload);
 }
 
-async function getUserProfile(userId) {
-  const userProfile = await User.findByPk(userId, {
-    attributes: {
-      exclude: ["password"],
-      include: ["name", "lastname", "email", "phone", "img_url"],
-    },
-  });
-  return userProfile;
-}
-
 async function updateUserProfile(userId, profileData) {
   try {
     await User.update(
       {
         nameAndLastname: profileData.nameAndLastname,
         phone: profileData.phone,
-        dni:profileData.dni,
-        email:profileData.email,
-
+        dni: profileData.dni,
+        email: profileData.email,
       },
       { returning: true, where: { id: userId } }
     );
@@ -72,21 +71,21 @@ async function updateUserProfile(userId, profileData) {
   }
 }
 
-
 async function searchAll() {
   return User.findAll();
 }
 
-
-
+async function findUserById(id) {
+  return User.findOne({ where: { id } });
+}
 
 module.exports = {
   registerUser,
   findUserByEmail,
-  getUserById,
   validateUserPassword,
   generateToken,
-  getUserProfile,
+
   updateUserProfile,
-  searchAll
+  searchAll,
+  findUserById,
 };

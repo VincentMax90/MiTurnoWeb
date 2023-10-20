@@ -7,7 +7,6 @@ const Booking = () => {
   const [data, setData] = useState([]);
 
   const user = useSelector((state) => state.user);
-console.log(user)
   const booking = async () => {
     try {
       const response = await axios.get(

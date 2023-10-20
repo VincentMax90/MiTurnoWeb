@@ -14,8 +14,8 @@ import CreateLocation from "./views/CreateLocation";
 import CreateOperador from "./views/CreateOperador";
 import Local from "./views/local";
 import Operadores from "./views/Operadores";
-
-
+import ProtectedRoute from "./components/ProtectedRoute";
+import ProtectedRouteAdmin from "./components/ProtectedRouterAdmin";
 
 function App() {
   return (
@@ -27,14 +27,19 @@ function App() {
         <Route path="/login" element={<Login />}></Route>
         <Route path="/register" element={<Register />}></Route>
         <Route path="/recoverPass" element={<RecoverPass />}></Route>
-        <Route path="/myaccount" element={<MyAccount />}></Route>
-        <Route path="/reserve" element={<Reserve/>}></Route>
-        <Route path="/bookings" element = {<Booking/>}></Route>
-        <Route path="/create/location" element = {<CreateLocation/>}></Route>
-        <Route path="/create/operador" element = {<CreateOperador/>}></Route>
-        <Route path="/local" element = {<Local/>}></Route>
-        <Route path="/operadores" element = {<Operadores/>}></Route>
 
+        <Route element={<ProtectedRoute />}>
+          <Route path="/create/location" element={<CreateLocation />}></Route>
+          <Route path="/create/operador" element={<CreateOperador />}></Route>
+          <Route path="/local" element={<Local />}></Route>
+          <Route path="/operadores" element={<Operadores />}></Route>
+        </Route>
+
+        <Route element={<ProtectedRoute />}>
+          <Route path="/myaccount" element={<MyAccount />}></Route>
+          <Route path="/reserve" element={<Reserve />}></Route>
+          <Route path="/bookings" element={<Booking />}></Route>
+        </Route>
       </Routes>
     </>
   );

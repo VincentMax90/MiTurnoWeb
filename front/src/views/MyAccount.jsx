@@ -6,17 +6,33 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 const MyAccount = () => {
   const user = useSelector((state) => state.user);
+  const [data, setData] = useState("");
 
   const [nameAndLastname, setNameAndLastname] = useState(
-    user ? user.nameAndLastname : ""
+    data ? data.nameAndLastname : ""
   );
-  const [dni, setDni] = useState(user ? user.dni : "");
-  const [email, setEmail] = useState(user ? user.email : "");
+  const [dni, setDni] = useState(data ? data.dni : "");
+  const [email, setEmail] = useState(data ? data.email : "");
   const [password, setPassword] = useState("");
-  const [phone, setPhone] = useState(user ? user.phone || null : null);
+  const [phone, setPhone] = useState(data ? data.phone || null : null);
+
+  const userDate = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:3001/api/user/search/${user.id}`
+      );
+      const data1 = response.data;
+      setNameAndLastname(data1.nameAndLastname);
+      setEmail(data1.email);setDni(data1.dni)
+      setPhone(data1.phone)
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const handleSaveChanges = () => {
     const userData = {
@@ -32,8 +48,12 @@ const MyAccount = () => {
         credentials: "include",
       })
       .then((response) => {
-        if (response.status === 200) {
-          alert("Datos actualizados con éxito");
+        if (response.status === 200) {  Swal.fire({
+          icon:'success',
+          title:"Ingreso con exito",
+          text:'Gracias por confiar en nuestro servicio', timer: "1500",
+          confirmButtonText: 'Continuar'})
+       ;
         } else {
           alert("Error al actualizar los datos");
         }
@@ -43,6 +63,10 @@ const MyAccount = () => {
         alert("Error al actualizar los datos");
       });
   };
+
+  useEffect(() => {
+    userDate();
+  }, []);
 
   return (
     <>
@@ -173,7 +197,7 @@ const MyAccount = () => {
                   </Button>
                   <Button
                     sx={{}}
-                    type="submit"
+                    type="button"
                     variant="contained"
                     style={{
                       width: "100%",
