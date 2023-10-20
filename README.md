@@ -1,6 +1,6 @@
 # MiTurnoWeb
 
-Aplicación web ,l a misma permite reservar turnos a clientes y facilitar la gestión de las empresas de diferentes rubros que poseen sucursales físicas. Posee roles de administrado, operador y cliente, respondiendo a la necesidad de cada uno.
+Aplicación web ,la misma permite reservar turnos a clientes y facilitar la gestión de las empresas de diferentes rubros que poseen sucursales físicas. Posee roles de administrado, operador y cliente, respondiendo a la necesidad de cada uno.
 
 
 Construido con
